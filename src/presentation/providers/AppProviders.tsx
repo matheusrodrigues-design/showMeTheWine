@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
+import { colors } from '@/core/theme/colors';
 
 function createQueryClient() {
   return new QueryClient({
@@ -33,5 +34,5 @@ export function AppProviders({ children }: PropsWithChildren) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#121212' },
+  root: { flex: 1, backgroundColor: colors.paper },
 });

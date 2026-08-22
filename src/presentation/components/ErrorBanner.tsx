@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     padding: 16,
     borderLeftWidth: 2,
-    borderLeftColor: colors.gold,
-    backgroundColor: colors.amoldeElevated,
+    borderLeftColor: colors.bordoux,
+    backgroundColor: '#F3E4E0',
   },
   text: {
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'DMSans_400Regular',
     fontSize: 14,
     lineHeight: 20,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   btnText: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 13,
     letterSpacing: 1,

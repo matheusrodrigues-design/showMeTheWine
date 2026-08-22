@@ -160,7 +160,11 @@ export function SommelierScreen() {
   }
 
   return (
-    <LinearGradient colors={['#121212', '#1A0A0E', '#0A0A0A']} style={styles.root}>
+    <LinearGradient
+      colors={[colors.paper, '#F4EBE6', colors.paperWarm]}
+      locations={[0, 0.5, 1]}
+      style={styles.root}
+    >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -186,7 +190,7 @@ export function SommelierScreen() {
               value={query}
               onChangeText={setQuery}
               placeholder="Busque um vinho — ex: Dom Pérignon 2012"
-              placeholderTextColor="#6A6560"
+              placeholderTextColor="#9A8F88"
               maxLength={200}
               returnKeyType="search"
               onSubmitEditing={() => void onSearch()}
@@ -201,7 +205,7 @@ export function SommelierScreen() {
               disabled={busy}
             >
               {search.isPending ? (
-                <ActivityIndicator color={colors.amolde} />
+                <ActivityIndicator color={colors.cream} />
               ) : (
                 <Text style={styles.primaryBtnText}>Buscar</Text>
               )}
@@ -213,7 +217,7 @@ export function SommelierScreen() {
               disabled={busy}
             >
               {ocr.isPending ? (
-                <ActivityIndicator color={colors.gold} />
+                <ActivityIndicator color={colors.bordoux} />
               ) : (
                 <Text style={styles.secondaryBtnText}>Ler Rótulo</Text>
               )}
@@ -359,7 +363,7 @@ export function SommelierScreen() {
                     disabled={busy}
                   >
                     {addWine.isPending ? (
-                      <ActivityIndicator color={colors.amolde} />
+                      <ActivityIndicator color={colors.cream} />
                     ) : (
                       <Text style={styles.addCellarBtnText}>
                         Adicionar à adega
@@ -385,7 +389,7 @@ const styles = StyleSheet.create({
   brand: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 42,
-    color: colors.cream,
+    color: colors.bordoux,
   },
   logoMark: {
     marginBottom: 8,
@@ -400,10 +404,10 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#3A3530',
+    borderBottomColor: '#C9B8AE',
   },
   input: {
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
     paddingVertical: 14,
@@ -416,12 +420,12 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     flex: 1,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingVertical: 15,
     alignItems: 'center',
   },
   primaryBtnText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.6,
@@ -430,12 +434,12 @@ const styles = StyleSheet.create({
   secondaryBtn: {
     flex: 1,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.gold,
+    borderColor: colors.bordoux,
     paddingVertical: 15,
     alignItems: 'center',
   },
   secondaryBtnText: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.6,
@@ -450,7 +454,7 @@ const styles = StyleSheet.create({
   badgeRow: { marginBottom: 14 },
   badge: {
     alignSelf: 'flex-start',
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.4,
@@ -459,13 +463,13 @@ const styles = StyleSheet.create({
   wineName: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 34,
-    color: colors.cream,
+    color: colors.ink,
   },
   meta: {
     marginTop: 8,
     fontFamily: 'DMSans_400Regular',
     fontSize: 14,
-    color: colors.gold,
+    color: colors.bordoux,
   },
   region: {
     marginTop: 6,
@@ -486,14 +490,14 @@ const styles = StyleSheet.create({
     fontFamily: 'DMSans_400Regular',
     fontSize: 15,
     lineHeight: 24,
-    color: colors.cream,
+    color: colors.ink,
   },
   pairingItem: {
     marginTop: 8,
     fontFamily: 'DMSans_400Regular',
     fontSize: 15,
     lineHeight: 24,
-    color: colors.cream,
+    color: colors.ink,
   },
   cellarPickRow: {
     gap: 10,
@@ -504,18 +508,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#3A3530',
+    borderColor: '#C9B8AE',
   },
   cellarChipActive: {
-    borderColor: colors.gold,
-    backgroundColor: 'rgba(212,175,55,0.08)',
+    borderColor: colors.bordoux,
+    backgroundColor: 'rgba(74,14,23,0.06)',
   },
   cellarChipText: {
     color: colors.muted,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
   },
-  cellarChipTextActive: { color: colors.gold },
+  cellarChipTextActive: { color: colors.bordoux },
   qtyRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -526,30 +530,30 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.gold,
+    borderColor: colors.bordoux,
     alignItems: 'center',
     justifyContent: 'center',
   },
   qtyBtnText: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontSize: 22,
     lineHeight: 24,
   },
   qtyValue: {
     minWidth: 36,
     textAlign: 'center',
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 28,
   },
   addCellarBtn: {
     marginTop: 20,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingVertical: 15,
     alignItems: 'center',
   },
   addCellarBtnText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.4,

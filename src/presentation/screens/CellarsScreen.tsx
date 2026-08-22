@@ -269,7 +269,7 @@ export function CellarsScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.amolde },
+  root: { flex: 1, backgroundColor: colors.paper },
   headerRow: {
     marginHorizontal: 24,
     flexDirection: 'row',
@@ -283,12 +283,12 @@ const styles = StyleSheet.create({
   },
   newBtn: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.gold,
+    borderColor: colors.bordoux,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
   newBtnText: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.2,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 44,
-    color: colors.cream,
+    color: colors.ink,
   },
   inventory: {
     marginHorizontal: 24,
@@ -321,12 +321,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginTop: 18,
     alignSelf: 'flex-start',
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
   addWineBtnText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.3,
@@ -343,13 +343,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'transparent',
   },
-  tabActive: { borderBottomColor: colors.gold },
+  tabActive: { borderBottomColor: colors.bordoux },
   tabText: {
     color: colors.muted,
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
   },
-  tabTextActive: { color: colors.cream },
+  tabTextActive: { color: colors.bordoux },
   typeRow: {
     paddingHorizontal: 20,
     paddingVertical: 22,
@@ -359,11 +359,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#3A3530',
+    borderColor: '#C9B8AE',
   },
   typeChipActive: {
-    borderColor: colors.gold,
-    backgroundColor: 'rgba(212,175,55,0.08)',
+    borderColor: colors.bordoux,
+    backgroundColor: 'rgba(74,14,23,0.06)',
   },
   typeChipText: {
     color: colors.muted,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 0.4,
   },
-  typeChipTextActive: { color: colors.gold },
+  typeChipTextActive: { color: colors.bordoux },
   emptyCellars: {
     marginHorizontal: 24,
     marginTop: 48,
@@ -381,12 +381,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     paddingVertical: 28,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: '#C9B8AE',
   },
   emptyTitle: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 28,
-    color: colors.cream,
+    color: colors.ink,
   },
   emptyBody: {
     marginTop: 8,
@@ -398,12 +398,12 @@ const styles = StyleSheet.create({
   emptyCta: {
     marginTop: 24,
     alignSelf: 'flex-start',
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingHorizontal: 20,
     paddingVertical: 14,
   },
   emptyCtaText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.4,
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   sync: {
     textAlign: 'center',
     marginTop: 16,
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_400Regular',
     fontSize: 12,
   },

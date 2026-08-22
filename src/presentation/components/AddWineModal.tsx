@@ -149,7 +149,7 @@ export function AddWineModal({
               disabled={busy}
             >
               {search.isPending ? (
-                <ActivityIndicator color={colors.amolde} />
+                <ActivityIndicator color={colors.cream} />
               ) : (
                 <Text style={styles.searchBtnText}>Buscar</Text>
               )}
@@ -213,7 +213,7 @@ export function AddWineModal({
                   disabled={busy}
                 >
                   {addWine.isPending ? (
-                    <ActivityIndicator color={colors.amolde} />
+                    <ActivityIndicator color={colors.cream} />
                   ) : (
                     <Text style={styles.addBtnText}>Cadastrar na adega</Text>
                   )}
@@ -238,22 +238,22 @@ export function AddWineModal({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.72)',
+    backgroundColor: 'rgba(42,18,22,0.45)',
     justifyContent: 'flex-end',
   },
   sheet: {
     maxHeight: '92%',
-    backgroundColor: colors.amoldeElevated,
+    backgroundColor: colors.paper,
     paddingHorizontal: 24,
     paddingTop: 28,
     paddingBottom: 36,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: '#D9CBC2',
   },
   title: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 32,
-    color: colors.cream,
+    color: colors.ink,
   },
   subtitle: {
     marginTop: 6,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   label: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.6,
@@ -273,20 +273,20 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#3A3530',
-    color: colors.cream,
+    borderBottomColor: '#C9B8AE',
+    color: colors.ink,
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
     paddingVertical: 12,
   },
   searchBtn: {
     marginTop: 18,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingVertical: 14,
     alignItems: 'center',
   },
   searchBtnText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.4,
@@ -296,10 +296,10 @@ const styles = StyleSheet.create({
     marginTop: 28,
     paddingTop: 20,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: '#C9B8AE',
   },
   badge: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.4,
@@ -309,13 +309,13 @@ const styles = StyleSheet.create({
   wineName: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 28,
-    color: colors.cream,
+    color: colors.ink,
   },
   meta: {
     marginTop: 6,
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    color: colors.gold,
+    color: colors.bordoux,
   },
   region: {
     marginTop: 4,
@@ -332,30 +332,30 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.gold,
+    borderColor: colors.bordoux,
     alignItems: 'center',
     justifyContent: 'center',
   },
   qtyBtnText: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontSize: 22,
     lineHeight: 24,
   },
   qtyValue: {
     minWidth: 36,
     textAlign: 'center',
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 28,
   },
   addBtn: {
     marginTop: 28,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingVertical: 15,
     alignItems: 'center',
   },
   addBtnText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.4,
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     alignItems: 'center',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#3A3530',
+    borderColor: '#C9B8AE',
   },
   cancelText: {
     color: colors.muted,
@@ -380,10 +380,10 @@ const styles = StyleSheet.create({
     padding: 14,
     borderLeftWidth: 2,
     borderLeftColor: colors.success,
-    backgroundColor: colors.amolde,
+    backgroundColor: '#E8F0E9',
   },
   successText: {
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'DMSans_400Regular',
     fontSize: 14,
     lineHeight: 20,

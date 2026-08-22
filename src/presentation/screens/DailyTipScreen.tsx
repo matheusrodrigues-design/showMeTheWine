@@ -81,7 +81,11 @@ export function DailyTipScreen() {
         : null;
 
   return (
-    <LinearGradient colors={['#1A0A0E', '#121212', '#0C0C0C']} style={styles.root}>
+    <LinearGradient
+      colors={[colors.paper, '#F4EBE6', colors.paperWarm]}
+      locations={[0, 0.5, 1]}
+      style={styles.root}
+    >
       <ScrollView
         contentContainerStyle={{
           paddingTop: insets.top + 24,
@@ -92,7 +96,7 @@ export function DailyTipScreen() {
           <RefreshControl
             refreshing={tipQuery.isRefetching}
             onRefresh={() => void tipQuery.refetch()}
-            tintColor={colors.gold}
+            tintColor={colors.bordoux}
           />
         }
       >
@@ -151,13 +155,13 @@ const styles = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 2.4,
     textTransform: 'uppercase',
-    color: colors.gold,
+    color: colors.bordoux,
   },
   brand: {
     marginTop: 10,
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 48,
-    color: colors.cream,
+    color: colors.bordoux,
   },
   locationNote: {
     marginTop: 8,
@@ -169,14 +173,14 @@ const styles = StyleSheet.create({
   rule: {
     marginTop: 36,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     width: 48,
     marginBottom: 18,
   },
   weather: {
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
-    color: colors.gold,
+    color: colors.bordoux,
     letterSpacing: 0.3,
   },
   title: {
@@ -184,20 +188,20 @@ const styles = StyleSheet.create({
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 34,
     lineHeight: 40,
-    color: colors.cream,
+    color: colors.ink,
   },
   editorial: {
     marginTop: 22,
     fontFamily: 'CormorantGaramond_500Medium_Italic',
     fontSize: 22,
     lineHeight: 34,
-    color: '#E8E2D6',
+    color: '#4A3A36',
   },
   wineBlock: {
     marginTop: 36,
     paddingTop: 22,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: '#C9B8AE',
   },
   wineLabel: {
     fontFamily: 'DMSans_500Medium',
@@ -210,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 30,
-    color: colors.gold,
+    color: colors.bordoux,
   },
   rationaleTitle: {
     marginTop: 28,
@@ -225,6 +229,6 @@ const styles = StyleSheet.create({
     fontFamily: 'DMSans_400Regular',
     fontSize: 15,
     lineHeight: 24,
-    color: colors.cream,
+    color: colors.ink,
   },
 });

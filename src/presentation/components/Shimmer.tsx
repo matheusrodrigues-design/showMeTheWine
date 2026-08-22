@@ -62,7 +62,7 @@ export function CellarListSkeleton() {
 
 const styles = StyleSheet.create({
   base: {
-    backgroundColor: colors.amoldeSurface,
+    backgroundColor: colors.paperDeep,
   },
   skeletonWrap: {
     padding: 24,
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 20,
     borderRadius: 4,
-    backgroundColor: colors.amoldeElevated,
+    backgroundColor: 'rgba(255,255,255,0.5)',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#2A2A2A',
+    borderColor: '#D9CBC2',
   },
 });

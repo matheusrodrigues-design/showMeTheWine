@@ -7,33 +7,32 @@ export interface CellarAtmosphere {
 }
 
 /**
- * Atmosferas visuais por tipo de adega.
- * Gradientes premium locais (sem dependência de CDN) para transição suave e offline-safe.
+ * Atmosferas visuais por tipo de adega — tons claros que combinam com a logo bordô.
  */
 export const CELLAR_ATMOSPHERES: Record<CellarType, CellarAtmosphere> = {
   climatizada: {
-    gradient: ['#1A0A0E', '#4A0E17', '#0D0D0D'],
-    overlay: 'rgba(18,18,18,0.35)',
+    gradient: ['#F7F1EB', '#E8D4D0', '#EFE6DE'],
+    overlay: 'rgba(247,241,235,0.15)',
     eyebrow: 'Controle térmico preciso',
   },
   subterranea: {
-    gradient: ['#0B1210', '#1A2A22', '#0A0A0A'],
-    overlay: 'rgba(18,18,18,0.4)',
+    gradient: ['#F4F1EB', '#D8E0D6', '#EFE6DE'],
+    overlay: 'rgba(247,241,235,0.2)',
     eyebrow: 'Frescura da terra',
   },
   armario: {
-    gradient: ['#1C1410', '#3A2A1C', '#121212'],
-    overlay: 'rgba(18,18,18,0.45)',
+    gradient: ['#F7F1EB', '#E5D8C8', '#EFE6DE'],
+    overlay: 'rgba(247,241,235,0.18)',
     eyebrow: 'Proximidade e ritual',
   },
   adega_natural: {
-    gradient: ['#101810', '#24301C', '#0E0E0E'],
-    overlay: 'rgba(18,18,18,0.4)',
+    gradient: ['#F4F6F0', '#D6E0D0', '#EFE6DE'],
+    overlay: 'rgba(247,241,235,0.2)',
     eyebrow: 'Envelhecimento orgânico',
   },
   garrafeira: {
-    gradient: ['#141018', '#2A1830', '#121212'],
-    overlay: 'rgba(18,18,18,0.42)',
+    gradient: ['#F6F0F4', '#E0D0DC', '#EFE6DE'],
+    overlay: 'rgba(247,241,235,0.18)',
     eyebrow: 'Coleção de raridades',
   },
 };

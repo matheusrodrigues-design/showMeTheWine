@@ -21,11 +21,11 @@ const navTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.amolde,
-    card: colors.amolde,
-    text: colors.cream,
-    border: '#2A2A2A',
-    primary: colors.gold,
+    background: colors.paper,
+    card: colors.paper,
+    text: colors.ink,
+    border: '#D9CBC2',
+    primary: colors.bordoux,
   },
 };
 
@@ -43,7 +43,7 @@ function TabLabel({
         fontSize: 10,
         letterSpacing: 1.2,
         textTransform: 'uppercase',
-        color: focused ? colors.gold : colors.muted,
+        color: focused ? colors.bordoux : colors.muted,
         marginTop: 2,
       }}
     >
@@ -61,7 +61,7 @@ export function RootNavigator() {
   if (loading) {
     return (
       <View style={styles.boot}>
-        <ActivityIndicator color={colors.gold} />
+        <ActivityIndicator color={colors.bordoux} />
       </View>
     );
   }
@@ -75,11 +75,11 @@ export function RootNavigator() {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: colors.gold,
+          tabBarActiveTintColor: colors.bordoux,
           tabBarInactiveTintColor: colors.muted,
           tabBarStyle: {
-            backgroundColor: '#0E0E0E',
-            borderTopColor: '#2A2A2A',
+            backgroundColor: colors.paperWarm,
+            borderTopColor: '#D9CBC2',
             borderTopWidth: StyleSheet.hairlineWidth,
             height: tabBarHeight,
             paddingTop: 10,
@@ -128,7 +128,7 @@ export function RootNavigator() {
 const styles = StyleSheet.create({
   boot: {
     flex: 1,
-    backgroundColor: colors.amolde,
+    backgroundColor: colors.paper,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -52,7 +52,7 @@ export default function App() {
 
   return (
     <View style={styles.root} onLayout={onLayout}>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <AppProviders>
         <SafeBoot>
           <AuthProvider>
@@ -94,23 +94,23 @@ function SafeBoot({ children }: { children: ReactNode }) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.amolde },
+  root: { flex: 1, backgroundColor: colors.paper },
   config: {
     flex: 1,
-    backgroundColor: colors.amolde,
+    backgroundColor: colors.paper,
     justifyContent: 'center',
     padding: 28,
   },
   configTitle: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 32,
-    color: colors.cream,
+    color: colors.bordoux,
   },
   configBody: {
     marginTop: 12,
     fontFamily: 'DMSans_400Regular',
     fontSize: 15,
-    color: colors.gold,
+    color: colors.ink,
   },
   configHint: {
     marginTop: 16,

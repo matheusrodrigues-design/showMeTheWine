@@ -1,4 +1,5 @@
 import { Image, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { colors } from '@/core/theme/colors';
 
 const logo = require('../../../assets/brand/logo-transparent.png');
 const bottle = require('../../../assets/brand/bottle.png');
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   wordmarkCompact: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 18,
-    color: '#F5F0E8',
+    color: colors.bordoux,
     letterSpacing: 0.4,
     flexShrink: 1,
   },

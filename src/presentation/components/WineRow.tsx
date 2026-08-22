@@ -40,12 +40,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 20,
     marginBottom: 14,
-    backgroundColor: 'rgba(26,26,26,0.72)',
+    backgroundColor: 'rgba(255,255,255,0.55)',
     overflow: 'hidden',
   },
   accent: {
     width: 3,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
   },
   content: {
     flex: 1,
@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
   },
   name: {
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 26,
     letterSpacing: 0.3,
   },
   meta: {
     marginTop: 4,
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_400Regular',
     fontSize: 13,
   },
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   qty: {
     marginTop: 12,
-    color: colors.cream,
+    color: colors.ink,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.2,

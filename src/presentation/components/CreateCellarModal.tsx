@@ -132,7 +132,7 @@ export function CreateCellarModal({ visible, onClose, onCreated }: Props) {
               disabled={createCellar.isPending}
             >
               {createCellar.isPending ? (
-                <ActivityIndicator color={colors.amolde} />
+                <ActivityIndicator color={colors.cream} />
               ) : (
                 <Text style={styles.createText}>Criar adega</Text>
               )}
@@ -147,21 +147,21 @@ export function CreateCellarModal({ visible, onClose, onCreated }: Props) {
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.72)',
+    backgroundColor: 'rgba(42,18,22,0.45)',
     justifyContent: 'flex-end',
   },
   sheet: {
-    backgroundColor: colors.amoldeElevated,
+    backgroundColor: colors.paper,
     paddingHorizontal: 24,
     paddingTop: 28,
     paddingBottom: 36,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: '#D9CBC2',
   },
   title: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 32,
-    color: colors.cream,
+    color: colors.ink,
   },
   subtitle: {
     marginTop: 6,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   label: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.6,
@@ -181,8 +181,8 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#3A3530',
-    color: colors.cream,
+    borderBottomColor: '#C9B8AE',
+    color: colors.ink,
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
     paddingVertical: 12,
@@ -195,18 +195,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#3A3530',
+    borderColor: '#C9B8AE',
   },
   typeChipActive: {
-    borderColor: colors.gold,
-    backgroundColor: 'rgba(212,175,55,0.08)',
+    borderColor: colors.bordoux,
+    backgroundColor: 'rgba(74,14,23,0.06)',
   },
   typeChipText: {
     color: colors.muted,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
   },
-  typeChipTextActive: { color: colors.gold },
+  typeChipTextActive: { color: colors.bordoux },
   actions: {
     flexDirection: 'row',
     gap: 12,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   cancelBtn: {
     flex: 1,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#3A3530',
+    borderColor: '#C9B8AE',
     paddingVertical: 15,
     alignItems: 'center',
   },
@@ -228,12 +228,12 @@ const styles = StyleSheet.create({
   },
   createBtn: {
     flex: 1,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingVertical: 15,
     alignItems: 'center',
   },
   createText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.4,

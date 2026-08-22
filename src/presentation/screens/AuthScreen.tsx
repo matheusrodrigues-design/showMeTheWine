@@ -37,7 +37,11 @@ export function AuthScreen() {
   }
 
   return (
-    <LinearGradient colors={['#2E0A10', '#121212', '#0A0A0A']} style={styles.root}>
+    <LinearGradient
+      colors={[colors.paper, '#F3E8E4', colors.paperWarm]}
+      locations={[0, 0.45, 1]}
+      style={styles.root}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.inner}
@@ -60,7 +64,7 @@ export function AuthScreen() {
             value={email}
             onChangeText={setEmail}
             placeholder="voce@exemplo.com"
-            placeholderTextColor="#6A6560"
+            placeholderTextColor="#9A8F88"
           />
 
           <Text style={[styles.label, { marginTop: 18 }]}>Senha</Text>
@@ -71,7 +75,7 @@ export function AuthScreen() {
             value={password}
             onChangeText={setPassword}
             placeholder="Mínimo 8 caracteres"
-            placeholderTextColor="#6A6560"
+            placeholderTextColor="#9A8F88"
           />
 
           <Pressable
@@ -80,7 +84,7 @@ export function AuthScreen() {
             disabled={busy}
           >
             {busy ? (
-              <ActivityIndicator color={colors.amolde} />
+              <ActivityIndicator color={colors.cream} />
             ) : (
               <Text style={styles.ctaText}>
                 {mode === 'signin' ? 'Entrar' : 'Criar acesso'}
@@ -114,12 +118,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
   },
   logo: {
-    marginBottom: 16,
+    marginBottom: 20,
   },
   brand: {
     fontFamily: 'CormorantGaramond_600SemiBold',
     fontSize: 36,
-    color: colors.cream,
+    color: colors.bordoux,
     letterSpacing: 0.5,
   },
   subtitle: {
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
   },
   form: { marginTop: 8 },
   label: {
-    color: colors.gold,
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 11,
     letterSpacing: 1.6,
@@ -142,21 +146,21 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#3A3530',
-    color: colors.cream,
+    borderBottomColor: '#C9B8AE',
+    color: colors.ink,
     fontFamily: 'DMSans_400Regular',
     fontSize: 16,
     paddingVertical: 12,
   },
   cta: {
     marginTop: 32,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.bordoux,
     paddingVertical: 16,
     alignItems: 'center',
   },
   ctaDisabled: { opacity: 0.6 },
   ctaText: {
-    color: colors.amolde,
+    color: colors.cream,
     fontFamily: 'DMSans_500Medium',
     fontSize: 13,
     letterSpacing: 2,
