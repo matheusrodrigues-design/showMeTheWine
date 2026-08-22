@@ -6,12 +6,14 @@ import {
   cellarTypeSchema,
   cellarWineSchema,
   createCellarInputSchema,
+  type WineReport as WineReportDto,
 } from '@/data/schemas/wine';
 import type {
   Cellar,
   CellarType,
   CellarWine,
   Wine,
+  WineReport,
 } from '@/domain/entities/Cellar';
 import type {
   AddWineToCellarInput,
@@ -19,6 +21,21 @@ import type {
   ICellarRepository,
 } from '@/domain/repositories/ICellarRepository';
 import { sanitizeUserText } from '@/core/security/sanitize';
+
+function mapReport(dto?: WineReportDto | null): WineReport | undefined {
+  if (!dto) return undefined;
+  return {
+    producerStory: dto.producer_story,
+    terroir: dto.terroir,
+    vintageStory: dto.vintage_story,
+    labelStory: dto.label_story,
+    technicalSheet: dto.technical_sheet,
+    agingPotential: dto.aging_potential,
+    drinkingWindow: dto.drinking_window,
+    pairings: dto.pairings,
+    buyingRationale: dto.buying_rationale,
+  };
+}
 
 function mapWine(row: z.infer<typeof cellarWineSchema>['wines_cache']): Wine | undefined {
   if (!row) return undefined;
@@ -36,6 +53,7 @@ function mapWine(row: z.infer<typeof cellarWineSchema>['wines_cache']): Wine | u
     pairingNotes: row.pairing_notes,
     alcoholPct: row.alcohol_pct,
     servingTempC: row.serving_temp_c,
+    report: mapReport(row.metadata?.report),
   };
 }
 

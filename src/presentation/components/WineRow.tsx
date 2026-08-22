@@ -1,18 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { CellarWine } from '@/domain/entities/Cellar';
 import { colors } from '@/core/theme/colors';
 
 interface Props {
   item: CellarWine;
+  onPress: () => void;
 }
 
-export function WineRow({ item }: Props) {
+export function WineRow({ item, onPress }: Props) {
   const wine = item.wine;
   const qtyLabel =
     item.quantity === 1 ? '1 garrafa' : `${item.quantity} garrafas`;
 
   return (
-    <View style={styles.row}>
+    <Pressable
+      style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`Abrir ficha de ${wine?.name ?? 'vinho'}`}
+    >
       <View style={styles.accent} />
       <View style={styles.content}>
         <Text style={styles.name} numberOfLines={1}>
@@ -31,7 +37,7 @@ export function WineRow({ item }: Props) {
         </Text>
         <Text style={styles.qty}>{qtyLabel}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -42,6 +48,9 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     backgroundColor: 'rgba(255,255,255,0.55)',
     overflow: 'hidden',
+  },
+  rowPressed: {
+    opacity: 0.85,
   },
   accent: {
     width: 3,

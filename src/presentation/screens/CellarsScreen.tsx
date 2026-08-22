@@ -32,7 +32,9 @@ import { ErrorBanner } from '@/presentation/components/ErrorBanner';
 import { WineRow } from '@/presentation/components/WineRow';
 import { CreateCellarModal } from '@/presentation/components/CreateCellarModal';
 import { AddWineModal } from '@/presentation/components/AddWineModal';
+import { WineDetailModal } from '@/presentation/components/WineDetailModal';
 import { BrandMark } from '@/presentation/components/BrandMark';
+import type { CellarWine } from '@/domain/entities/Cellar';
 
 export function CellarsScreen() {
   const insets = useSafeAreaInsets();
@@ -41,6 +43,7 @@ export function CellarsScreen() {
   const [activeCellarId, setActiveCellarId] = useState<string | undefined>();
   const [createOpen, setCreateOpen] = useState(false);
   const [addWineOpen, setAddWineOpen] = useState(false);
+  const [selectedWine, setSelectedWine] = useState<CellarWine | null>(null);
 
   const activeCellar = useMemo(
     () => cellars?.find((c) => c.id === activeCellarId) ?? cellars?.[0],
@@ -242,7 +245,11 @@ export function CellarsScreen() {
         ) : null}
 
         {winesQuery.data?.map((item) => (
-          <WineRow key={item.id} item={item} />
+          <WineRow
+            key={item.id}
+            item={item}
+            onPress={() => setSelectedWine(item)}
+          />
         ))}
 
         {isRefetching || updateType.isPending ? (
@@ -264,6 +271,13 @@ export function CellarsScreen() {
           onClose={() => setAddWineOpen(false)}
         />
       ) : null}
+
+      <WineDetailModal
+        visible={selectedWine != null}
+        item={selectedWine}
+        onClose={() => setSelectedWine(null)}
+        onReportUpdated={() => void winesQuery.refetch()}
+      />
     </View>
   );
 }

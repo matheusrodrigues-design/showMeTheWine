@@ -14,6 +14,7 @@ import { sanitizeUserText } from '@/core/security/sanitize';
 import { useWineSearch } from '@/presentation/hooks/useSommelier';
 import { useAddWineToCellar } from '@/presentation/hooks/useCellars';
 import { ErrorBanner } from '@/presentation/components/ErrorBanner';
+import { WineReportView } from '@/presentation/components/WineReportView';
 import { ApiError } from '@/data/datasources/edgeFunctionClient';
 import type { WineSearchResponse } from '@/data/schemas/wine';
 
@@ -174,6 +175,12 @@ export function AddWineModal({
                     .filter(Boolean)
                     .join(', ')}
                 </Text>
+
+                <WineReportView
+                  report={result.wine.metadata?.report}
+                  tastingNotes={result.wine.tasting_notes}
+                  pairingNotes={result.wine.pairing_notes}
+                />
 
                 <Text style={[styles.label, { marginTop: 22 }]}>Quantidade</Text>
                 <View style={styles.qtyRow}>

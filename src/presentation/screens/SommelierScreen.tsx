@@ -27,22 +27,10 @@ import { sanitizeUserText } from '@/core/security/sanitize';
 import { ErrorBanner } from '@/presentation/components/ErrorBanner';
 import { Shimmer } from '@/presentation/components/Shimmer';
 import { BrandMark } from '@/presentation/components/BrandMark';
+import { WineReportView } from '@/presentation/components/WineReportView';
 import { colors } from '@/core/theme/colors';
 import { ApiError } from '@/data/datasources/edgeFunctionClient';
-import type { WineReport, WineSearchResponse } from '@/data/schemas/wine';
-
-type ReportTextKey = Exclude<keyof WineReport, 'pairings'>;
-
-const REPORT_SECTIONS: { key: ReportTextKey; title: string }[] = [
-  { key: 'producer_story', title: 'O Produtor' },
-  { key: 'terroir', title: 'O Terroir' },
-  { key: 'vintage_story', title: 'A Safra' },
-  { key: 'label_story', title: 'O Rótulo' },
-  { key: 'technical_sheet', title: 'Ficha Técnica' },
-  { key: 'aging_potential', title: 'Potencial de Guarda' },
-  { key: 'drinking_window', title: 'Janela Ideal de Consumo' },
-  { key: 'buying_rationale', title: 'Racional de Compra' },
-];
+import type { WineSearchResponse } from '@/data/schemas/wine';
 
 export function SommelierScreen() {
   const insets = useSafeAreaInsets();
@@ -257,47 +245,11 @@ export function SommelierScreen() {
                   .join(', ')}
               </Text>
 
-              {result.wine.metadata?.report ? (
-                <>
-                  {REPORT_SECTIONS.map(({ key, title }) => {
-                    const text = result.wine.metadata?.report?.[key];
-                    if (typeof text !== 'string' || !text.trim()) return null;
-                    return (
-                      <View key={key}>
-                        <Text style={styles.section}>{title}</Text>
-                        <Text style={styles.body}>{text}</Text>
-                      </View>
-                    );
-                  })}
-
-                  <Text style={styles.section}>Harmonizações</Text>
-                  {result.wine.metadata.report.pairings.map((pairing, i) => (
-                    <Text key={`pairing-${i}`} style={styles.pairingItem}>
-                      {i + 1}. {pairing}
-                    </Text>
-                  ))}
-                </>
-              ) : (
-                <>
-                  {result.wine.tasting_notes ? (
-                    <>
-                      <Text style={styles.section}>Notas de prova</Text>
-                      <Text style={styles.body}>
-                        {result.wine.tasting_notes}
-                      </Text>
-                    </>
-                  ) : null}
-
-                  {result.wine.pairing_notes ? (
-                    <>
-                      <Text style={styles.section}>Harmonização</Text>
-                      <Text style={styles.body}>
-                        {result.wine.pairing_notes}
-                      </Text>
-                    </>
-                  ) : null}
-                </>
-              )}
+              <WineReportView
+                report={result.wine.metadata?.report}
+                tastingNotes={result.wine.tasting_notes}
+                pairingNotes={result.wine.pairing_notes}
+              />
 
               <Text style={styles.section}>Cadastrar na adega</Text>
               {(cellars?.length ?? 0) === 0 ? (
@@ -486,13 +438,6 @@ const styles = StyleSheet.create({
     color: colors.muted,
   },
   body: {
-    marginTop: 8,
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 15,
-    lineHeight: 24,
-    color: colors.ink,
-  },
-  pairingItem: {
     marginTop: 8,
     fontFamily: 'DMSans_400Regular',
     fontSize: 15,

@@ -27,6 +27,18 @@ export interface CellarWine {
   wine?: Wine;
 }
 
+export interface WineReport {
+  producerStory: string;
+  terroir: string;
+  vintageStory: string;
+  labelStory: string;
+  technicalSheet: string;
+  agingPotential: string;
+  drinkingWindow: string;
+  pairings: string[];
+  buyingRationale: string;
+}
+
 export interface Wine {
   id: string;
   name: string;
@@ -41,6 +53,7 @@ export interface Wine {
   pairingNotes: string | null;
   alcoholPct: number | null;
   servingTempC: number | null;
+  report?: WineReport;
 }
 
 export const CELLAR_TYPE_LABELS: Record<CellarType, string> = {
