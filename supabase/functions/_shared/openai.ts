@@ -18,6 +18,9 @@ Estruture o campo report exatamente assim:
 - vintage_story: A Safra
 - label_story: O Rótulo (conceito/método/posicionamento)
 - technical_sheet: Ficha Técnica em texto corrido (castas, álcool, estágio, serviço etc. quando conhecidos)
+- sensory_analysis: análise sensorial (visual, olfativa e gustativa: aromas, acidez, corpo, textura, final)
+- oak_influence: se o vinho passou por madeira — tipo de carvalho, tamanho/uso e tempo quando conhecidos; se não passou, dizer claramente que é vinificado sem madeira
+- tannin_level: nível de tanino em texto curto (ex.: "Médio-alto, grãos finos"); para brancos e espumantes indicar tanino mínimo ou não aplicável
 - aging_potential: Potencial de Guarda
 - drinking_window: Janela Ideal de Consumo
 - pairings: exatamente 3 sugestões de harmonização (strings)
@@ -93,6 +96,9 @@ const WINE_JSON_SCHEMA = {
           vintage_story: { type: 'string' },
           label_story: { type: 'string' },
           technical_sheet: { type: 'string' },
+          sensory_analysis: { type: 'string' },
+          oak_influence: { type: 'string' },
+          tannin_level: { type: 'string' },
           aging_potential: { type: 'string' },
           drinking_window: { type: 'string' },
           pairings: {
@@ -109,6 +115,9 @@ const WINE_JSON_SCHEMA = {
           'vintage_story',
           'label_story',
           'technical_sheet',
+          'sensory_analysis',
+          'oak_influence',
+          'tannin_level',
           'aging_potential',
           'drinking_window',
           'pairings',

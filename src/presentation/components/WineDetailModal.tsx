@@ -14,6 +14,7 @@ import { WineReportView } from '@/presentation/components/WineReportView';
 import { useWineSearch } from '@/presentation/hooks/useSommelier';
 import { ErrorBanner } from '@/presentation/components/ErrorBanner';
 import { ApiError } from '@/data/datasources/edgeFunctionClient';
+import type { WineReport as ApiWineReport } from '@/data/schemas/wine';
 
 interface Props {
   visible: boolean;
@@ -22,23 +23,16 @@ interface Props {
   onReportUpdated: () => void;
 }
 
-function mapApiReport(next: {
-  producer_story: string;
-  terroir: string;
-  vintage_story: string;
-  label_story: string;
-  technical_sheet: string;
-  aging_potential: string;
-  drinking_window: string;
-  pairings: string[];
-  buying_rationale: string;
-}): WineReport {
+function mapApiReport(next: ApiWineReport): WineReport {
   return {
     producerStory: next.producer_story,
     terroir: next.terroir,
     vintageStory: next.vintage_story,
     labelStory: next.label_story,
     technicalSheet: next.technical_sheet,
+    sensoryAnalysis: next.sensory_analysis,
+    oakInfluence: next.oak_influence,
+    tanninLevel: next.tannin_level,
     agingPotential: next.aging_potential,
     drinkingWindow: next.drinking_window,
     pairings: next.pairings,
@@ -61,6 +55,8 @@ export function WineDetailModal({
   const busy = search.isPending;
   const hasFallback = Boolean(wine?.tastingNotes || wine?.pairingNotes);
   const hasAnyContent = Boolean(displayReport || hasFallback);
+  // Fichas geradas antes da análise sensorial precisam ser regeradas.
+  const needsRefresh = !displayReport?.sensoryAnalysis?.trim();
 
   useEffect(() => {
     if (!visible) {
@@ -151,7 +147,7 @@ export function WineDetailModal({
               </View>
             )}
 
-            {!displayReport ? (
+            {needsRefresh ? (
               <Pressable
                 style={[
                   hasAnyContent ? styles.refreshBtnSecondary : styles.refreshBtn,

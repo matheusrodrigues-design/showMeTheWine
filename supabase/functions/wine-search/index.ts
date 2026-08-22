@@ -101,7 +101,8 @@ Deno.serve(async (req) => {
       hit.metadata &&
       typeof hit.metadata === 'object' &&
       hit.metadata.report &&
-      typeof hit.metadata.report === 'object';
+      typeof hit.metadata.report === 'object' &&
+      typeof hit.metadata.report.sensory_analysis === 'string';
 
     if (hit && hitHasReport) {
       return json(req, {

@@ -11,18 +11,17 @@ import {
   View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as ImagePicker from 'expo-image-picker';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useWineSearch } from '@/presentation/hooks/useSommelier';
 import {
-  useLabelOcr,
-  useWineSearch,
-} from '@/presentation/hooks/useSommelier';
+  labelScanErrorMessage,
+  useLabelScan,
+} from '@/presentation/hooks/useLabelScan';
 import {
   useAddWineToCellar,
   useCellars,
 } from '@/presentation/hooks/useCellars';
-import { compressLabelImage } from '@/presentation/utils/compressLabelImage';
 import { sanitizeUserText } from '@/core/security/sanitize';
 import { ErrorBanner } from '@/presentation/components/ErrorBanner';
 import { Shimmer } from '@/presentation/components/Shimmer';
@@ -42,10 +41,10 @@ export function SommelierScreen() {
   const [quantity, setQuantity] = useState(1);
 
   const search = useWineSearch();
-  const ocr = useLabelOcr();
+  const labelScan = useLabelScan();
   const { data: cellars } = useCellars();
   const addWine = useAddWineToCellar();
-  const busy = search.isPending || ocr.isPending || addWine.isPending;
+  const busy = search.isPending || labelScan.isPending || addWine.isPending;
 
   const activeCellarId = selectedCellarId ?? cellars?.[0]?.id;
 
@@ -96,54 +95,10 @@ export function SommelierScreen() {
     setAddSuccess(null);
     setResult(null);
     try {
-      const isWeb = Platform.OS === 'web';
-
-      if (isWeb) {
-        const permission =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (!permission.granted) {
-          setLocalError('Permissão de fotos negada.');
-          return;
-        }
-
-        const photo = await ImagePicker.launchImageLibraryAsync({
-          quality: 0.8,
-          allowsEditing: true,
-          aspect: [3, 4],
-          base64: false,
-        });
-
-        if (photo.canceled || !photo.assets[0]?.uri) return;
-
-        const base64 = await compressLabelImage(photo.assets[0].uri);
-        const data = await ocr.mutateAsync(base64);
-        setResult(data);
-        return;
-      }
-
-      const permission = await ImagePicker.requestCameraPermissionsAsync();
-      if (!permission.granted) {
-        setLocalError('Permissão de câmera negada.');
-        return;
-      }
-
-      const photo = await ImagePicker.launchCameraAsync({
-        quality: 0.8,
-        allowsEditing: true,
-        aspect: [3, 4],
-      });
-
-      if (photo.canceled || !photo.assets[0]?.uri) return;
-
-      const base64 = await compressLabelImage(photo.assets[0].uri);
-      const data = await ocr.mutateAsync(base64);
-      setResult(data);
+      const data = await labelScan.scan();
+      if (data) setResult(data);
     } catch (e) {
-      setLocalError(
-        e instanceof ApiError
-          ? e.message
-          : 'Não foi possível ler o rótulo. Tente novamente.',
-      );
+      setLocalError(labelScanErrorMessage(e));
     }
   }
 
@@ -204,7 +159,7 @@ export function SommelierScreen() {
               onPress={() => void onOcr()}
               disabled={busy}
             >
-              {ocr.isPending ? (
+              {labelScan.isPending ? (
                 <ActivityIndicator color={colors.bordoux} />
               ) : (
                 <Text style={styles.secondaryBtnText}>Ler Rótulo</Text>

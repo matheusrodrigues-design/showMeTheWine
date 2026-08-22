@@ -12,6 +12,10 @@ import {
 import { colors } from '@/core/theme/colors';
 import { sanitizeUserText } from '@/core/security/sanitize';
 import { useWineSearch } from '@/presentation/hooks/useSommelier';
+import {
+  labelScanErrorMessage,
+  useLabelScan,
+} from '@/presentation/hooks/useLabelScan';
 import { useAddWineToCellar } from '@/presentation/hooks/useCellars';
 import { ErrorBanner } from '@/presentation/components/ErrorBanner';
 import { WineReportView } from '@/presentation/components/WineReportView';
@@ -32,6 +36,7 @@ export function AddWineModal({
   onClose,
 }: Props) {
   const search = useWineSearch();
+  const labelScan = useLabelScan();
   const addWine = useAddWineToCellar();
 
   const [query, setQuery] = useState('');
@@ -41,7 +46,7 @@ export function AddWineModal({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const busy = search.isPending || addWine.isPending;
+  const busy = search.isPending || labelScan.isPending || addWine.isPending;
 
   function reset() {
     setQuery('');
@@ -74,6 +79,21 @@ export function AddWineModal({
       setError(
         e instanceof ApiError ? e.message : 'Falha na busca do vinho.',
       );
+    }
+  }
+
+  async function onScanLabel() {
+    setError(null);
+    setSuccess(null);
+    setResult(null);
+    try {
+      const data = await labelScan.scan();
+      if (data) {
+        setResult(data);
+        setQuery(data.wine.name);
+      }
+    } catch (e) {
+      setError(labelScanErrorMessage(e));
     }
   }
 
@@ -121,7 +141,7 @@ export function AddWineModal({
           >
             <Text style={styles.title}>Adicionar vinho</Text>
             <Text style={styles.subtitle}>
-              Busca com cache inteligente · adega “{cellarName}”
+              Busque pelo nome ou leia o rótulo · adega “{cellarName}”
             </Text>
 
             {error ? <ErrorBanner message={error} /> : null}
@@ -137,24 +157,38 @@ export function AddWineModal({
               value={query}
               onChangeText={setQuery}
               placeholder="Ex: Catena Zapata Malbec 2019"
-              placeholderTextColor="#6A6560"
+              placeholderTextColor="#9A8F88"
               maxLength={200}
               editable={!busy}
               returnKeyType="search"
               onSubmitEditing={() => void onSearch()}
             />
 
-            <Pressable
-              style={[styles.searchBtn, busy && styles.disabled]}
-              onPress={() => void onSearch()}
-              disabled={busy}
-            >
-              {search.isPending ? (
-                <ActivityIndicator color={colors.cream} />
-              ) : (
-                <Text style={styles.searchBtnText}>Buscar</Text>
-              )}
-            </Pressable>
+            <View style={styles.actions}>
+              <Pressable
+                style={[styles.searchBtn, busy && styles.disabled]}
+                onPress={() => void onSearch()}
+                disabled={busy}
+              >
+                {search.isPending ? (
+                  <ActivityIndicator color={colors.cream} />
+                ) : (
+                  <Text style={styles.searchBtnText}>Buscar</Text>
+                )}
+              </Pressable>
+
+              <Pressable
+                style={[styles.scanBtn, busy && styles.disabled]}
+                onPress={() => void onScanLabel()}
+                disabled={busy}
+              >
+                {labelScan.isPending ? (
+                  <ActivityIndicator color={colors.bordoux} />
+                ) : (
+                  <Text style={styles.scanBtnText}>Ler Rótulo</Text>
+                )}
+              </Pressable>
+            </View>
 
             {result ? (
               <View style={styles.result}>
@@ -286,14 +320,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingVertical: 12,
   },
-  searchBtn: {
+  actions: {
+    flexDirection: 'row',
+    gap: 12,
     marginTop: 18,
+  },
+  searchBtn: {
+    flex: 1,
     backgroundColor: colors.bordoux,
     paddingVertical: 14,
     alignItems: 'center',
   },
   searchBtnText: {
     color: colors.cream,
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 12,
+    letterSpacing: 1.4,
+    textTransform: 'uppercase',
+  },
+  scanBtn: {
+    flex: 1,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.bordoux,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  scanBtnText: {
+    color: colors.bordoux,
     fontFamily: 'DMSans_500Medium',
     fontSize: 12,
     letterSpacing: 1.4,
