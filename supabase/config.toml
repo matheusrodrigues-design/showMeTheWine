@@ -1,0 +1,11 @@
+[project]
+id = "sommelier-digital"
+
+[api]
+enabled = true
+
+[functions.wine-search]
+verify_jwt = true
+
+[functions.daily-tip]
+verify_jwt = true
