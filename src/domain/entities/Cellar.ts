@@ -34,6 +34,9 @@ export interface WineReport {
   labelStory: string;
   technicalSheet: string;
   sensoryAnalysis?: string;
+  visualAnalysis?: string;
+  olfactoryAnalysis?: string;
+  palateAnalysis?: string;
   oakInfluence?: string;
   tanninLevel?: string;
   agingPotential: string;

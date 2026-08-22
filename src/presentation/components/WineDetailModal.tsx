@@ -31,6 +31,9 @@ function mapApiReport(next: ApiWineReport): WineReport {
     labelStory: next.label_story,
     technicalSheet: next.technical_sheet,
     sensoryAnalysis: next.sensory_analysis,
+    visualAnalysis: next.visual_analysis,
+    olfactoryAnalysis: next.olfactory_analysis,
+    palateAnalysis: next.palate_analysis,
     oakInfluence: next.oak_influence,
     tanninLevel: next.tannin_level,
     agingPotential: next.aging_potential,
@@ -55,8 +58,8 @@ export function WineDetailModal({
   const busy = search.isPending;
   const hasFallback = Boolean(wine?.tastingNotes || wine?.pairingNotes);
   const hasAnyContent = Boolean(displayReport || hasFallback);
-  // Fichas geradas antes da análise sensorial precisam ser regeradas.
-  const needsRefresh = !displayReport?.sensoryAnalysis?.trim();
+  // Fichas sem as três análises (visual/olfativa/paladar) precisam ser regeradas.
+  const needsRefresh = !displayReport?.visualAnalysis?.trim();
 
   useEffect(() => {
     if (!visible) {

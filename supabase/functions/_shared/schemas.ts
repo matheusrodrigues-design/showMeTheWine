@@ -13,6 +13,16 @@ export function sanitizeText(input: string, max = 200): string {
     .slice(0, max);
 }
 
+/** Sanitiza texto longo do relatório sem cortar e sem colapsar parágrafos. */
+export function sanitizeReportText(input: string): string {
+  return input
+    .replace(CONTROL, '')
+    .replace(INJECTION, '')
+    .replace(/[^\S\n]+/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 export const wineSearchBodySchema = z
   .object({
     query: z.string().trim().min(2).max(200).optional(),
@@ -36,18 +46,20 @@ export const wineSearchBodySchema = z
   });
 
 export const wineReportSchema = z.object({
-  producer_story: z.string().min(1).max(1500),
-  terroir: z.string().min(1).max(1500),
-  vintage_story: z.string().min(1).max(1500),
-  label_story: z.string().min(1).max(1500),
-  technical_sheet: z.string().min(1).max(1500),
-  sensory_analysis: z.string().min(1).max(1500),
-  oak_influence: z.string().min(1).max(800),
-  tannin_level: z.string().min(1).max(200),
-  aging_potential: z.string().min(1).max(800),
-  drinking_window: z.string().min(1).max(800),
-  pairings: z.array(z.string().min(1).max(300)).min(3).max(3),
-  buying_rationale: z.string().min(1).max(1500),
+  producer_story: z.string().min(1),
+  terroir: z.string().min(1),
+  vintage_story: z.string().min(1),
+  label_story: z.string().min(1),
+  technical_sheet: z.string().min(1),
+  visual_analysis: z.string().min(1),
+  olfactory_analysis: z.string().min(1),
+  palate_analysis: z.string().min(1),
+  oak_influence: z.string().min(1),
+  tannin_level: z.string().min(1),
+  aging_potential: z.string().min(1),
+  drinking_window: z.string().min(1),
+  pairings: z.array(z.string().min(1)).min(3).max(3),
+  buying_rationale: z.string().min(1),
 });
 
 export const wineAiSchema = z.object({
@@ -85,21 +97,23 @@ export type WineReport = z.infer<typeof wineReportSchema>;
 
 export function sanitizeWineReport(report: WineReport): WineReport {
   return {
-    producer_story: sanitizeText(report.producer_story, 1500),
-    terroir: sanitizeText(report.terroir, 1500),
-    vintage_story: sanitizeText(report.vintage_story, 1500),
-    label_story: sanitizeText(report.label_story, 1500),
-    technical_sheet: sanitizeText(report.technical_sheet, 1500),
-    sensory_analysis: sanitizeText(report.sensory_analysis, 1500),
-    oak_influence: sanitizeText(report.oak_influence, 800),
-    tannin_level: sanitizeText(report.tannin_level, 200),
-    aging_potential: sanitizeText(report.aging_potential, 800),
-    drinking_window: sanitizeText(report.drinking_window, 800),
-    pairings: report.pairings.map((p) => sanitizeText(p, 300)) as [
+    producer_story: sanitizeReportText(report.producer_story),
+    terroir: sanitizeReportText(report.terroir),
+    vintage_story: sanitizeReportText(report.vintage_story),
+    label_story: sanitizeReportText(report.label_story),
+    technical_sheet: sanitizeReportText(report.technical_sheet),
+    visual_analysis: sanitizeReportText(report.visual_analysis),
+    olfactory_analysis: sanitizeReportText(report.olfactory_analysis),
+    palate_analysis: sanitizeReportText(report.palate_analysis),
+    oak_influence: sanitizeReportText(report.oak_influence),
+    tannin_level: sanitizeReportText(report.tannin_level),
+    aging_potential: sanitizeReportText(report.aging_potential),
+    drinking_window: sanitizeReportText(report.drinking_window),
+    pairings: report.pairings.map((p) => sanitizeReportText(p)) as [
       string,
       string,
       string,
     ],
-    buying_rationale: sanitizeText(report.buying_rationale, 1500),
+    buying_rationale: sanitizeReportText(report.buying_rationale),
   };
 }

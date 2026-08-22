@@ -10,6 +10,9 @@ type DisplayReport = {
   labelStory: string;
   technicalSheet: string;
   sensoryAnalysis?: string;
+  visualAnalysis?: string;
+  olfactoryAnalysis?: string;
+  palateAnalysis?: string;
   oakInfluence?: string;
   tanninLevel?: string;
   agingPotential: string;
@@ -26,7 +29,9 @@ const REPORT_SECTIONS: { key: ReportTextKey; title: string }[] = [
   { key: 'vintageStory', title: 'A Safra' },
   { key: 'labelStory', title: 'O Rótulo' },
   { key: 'technicalSheet', title: 'Ficha Técnica' },
-  { key: 'sensoryAnalysis', title: 'Análise Sensorial' },
+  { key: 'visualAnalysis', title: 'Análise Visual' },
+  { key: 'olfactoryAnalysis', title: 'Análise Olfativa' },
+  { key: 'palateAnalysis', title: 'Análise do Paladar' },
   { key: 'oakInfluence', title: 'Passagem por Madeira' },
   { key: 'tanninLevel', title: 'Nível de Tanino' },
   { key: 'agingPotential', title: 'Potencial de Guarda' },
@@ -45,6 +50,9 @@ function toDisplay(
       labelStory: report.label_story,
       technicalSheet: report.technical_sheet,
       sensoryAnalysis: report.sensory_analysis,
+      visualAnalysis: report.visual_analysis,
+      olfactoryAnalysis: report.olfactory_analysis,
+      palateAnalysis: report.palate_analysis,
       oakInfluence: report.oak_influence,
       tanninLevel: report.tannin_level,
       agingPotential: report.aging_potential,
