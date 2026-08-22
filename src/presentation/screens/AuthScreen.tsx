@@ -47,7 +47,6 @@ export function AuthScreen() {
         style={styles.inner}
       >
         <BrandMark variant="full" style={styles.logo} />
-        <Text style={styles.brand}>Show Me The Wine</Text>
         <Text style={styles.subtitle}>
           Sua adega privada, curada com inteligência e discrição.
         </Text>
