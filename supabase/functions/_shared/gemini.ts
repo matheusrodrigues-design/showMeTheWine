@@ -66,7 +66,6 @@ const WINE_RESPONSE_SCHEMA = {
         olfactory_analysis: { type: 'string' },
         palate_analysis: { type: 'string' },
         oak_influence: { type: 'string' },
-        tannin_level: { type: 'string' },
         aging_potential: { type: 'string' },
         drinking_window: { type: 'string' },
         pairings: {
@@ -85,7 +84,6 @@ const WINE_RESPONSE_SCHEMA = {
         'olfactory_analysis',
         'palate_analysis',
         'oak_influence',
-        'tannin_level',
         'aging_potential',
         'drinking_window',
         'pairings',
@@ -142,7 +140,6 @@ Estruture o campo report exatamente assim:
 - olfactory_analysis: análise olfativa (intensidade, família aromática, primários, secundários e terciários)
 - palate_analysis: análise do paladar (ataque, corpo, acidez, álcool, textura, tanino no palato, persistência e final)
 - oak_influence: se o vinho passou por madeira — tipo de carvalho, tamanho/uso e tempo quando conhecidos; se não passou, dizer claramente que é vinificado sem madeira
-- tannin_level: nível de tanino em texto (ex.: "Médio-alto, grãos finos"); para brancos e espumantes indicar tanino mínimo ou não aplicável
 - aging_potential: Potencial de Guarda
 - drinking_window: Janela Ideal de Consumo
 - pairings: exatamente 3 sugestões de harmonização (strings), cada uma com racional

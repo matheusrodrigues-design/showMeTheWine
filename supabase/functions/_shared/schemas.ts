@@ -55,7 +55,6 @@ export const wineReportSchema = z.object({
   olfactory_analysis: z.string().min(1),
   palate_analysis: z.string().min(1),
   oak_influence: z.string().min(1),
-  tannin_level: z.string().min(1),
   aging_potential: z.string().min(1),
   drinking_window: z.string().min(1),
   pairings: z.array(z.string().min(1)).min(3).max(3),
@@ -106,7 +105,6 @@ export function sanitizeWineReport(report: WineReport): WineReport {
     olfactory_analysis: sanitizeReportText(report.olfactory_analysis),
     palate_analysis: sanitizeReportText(report.palate_analysis),
     oak_influence: sanitizeReportText(report.oak_influence),
-    tannin_level: sanitizeReportText(report.tannin_level),
     aging_potential: sanitizeReportText(report.aging_potential),
     drinking_window: sanitizeReportText(report.drinking_window),
     pairings: report.pairings.map((p) => sanitizeReportText(p)) as [

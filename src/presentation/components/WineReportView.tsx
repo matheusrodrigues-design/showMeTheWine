@@ -39,7 +39,6 @@ const REPORT_SECTIONS: { key: ReportTextKey; title: string }[] = [
   { key: 'labelStory', title: 'O Rótulo' },
   { key: 'technicalSheet', title: 'Ficha Técnica' },
   { key: 'oakInfluence', title: 'Passagem por Madeira' },
-  { key: 'tanninLevel', title: 'Nível de Tanino' },
   { key: 'agingPotential', title: 'Potencial de Guarda' },
   { key: 'drinkingWindow', title: 'Janela Ideal de Consumo' },
   { key: 'buyingRationale', title: 'Racional de Compra' },
@@ -261,6 +260,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 1.2,
     textTransform: 'uppercase',
-    color: colors.bordoux,
+    color: colors.ink,
   },
 });
