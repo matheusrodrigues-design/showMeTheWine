@@ -34,7 +34,6 @@ import { CreateCellarModal } from '@/presentation/components/CreateCellarModal';
 import { AddWineModal } from '@/presentation/components/AddWineModal';
 import { WineDetailModal } from '@/presentation/components/WineDetailModal';
 import { BrandMark } from '@/presentation/components/BrandMark';
-import type { CellarWine } from '@/domain/entities/Cellar';
 
 export function CellarsScreen() {
   const insets = useSafeAreaInsets();
@@ -43,7 +42,7 @@ export function CellarsScreen() {
   const [activeCellarId, setActiveCellarId] = useState<string | undefined>();
   const [createOpen, setCreateOpen] = useState(false);
   const [addWineOpen, setAddWineOpen] = useState(false);
-  const [selectedWine, setSelectedWine] = useState<CellarWine | null>(null);
+  const [selectedWineId, setSelectedWineId] = useState<string | null>(null);
 
   const activeCellar = useMemo(
     () => cellars?.find((c) => c.id === activeCellarId) ?? cellars?.[0],
@@ -57,6 +56,8 @@ export function CellarsScreen() {
   }, [cellars, activeCellarId]);
 
   const winesQuery = useCellarWines(activeCellar?.id);
+  const selectedWine =
+    winesQuery.data?.find((w) => w.id === selectedWineId) ?? null;
   const updateType = useUpdateCellarType();
   const fade = useSharedValue(1);
 
@@ -248,7 +249,7 @@ export function CellarsScreen() {
           <WineRow
             key={item.id}
             item={item}
-            onPress={() => setSelectedWine(item)}
+            onPress={() => setSelectedWineId(item.id)}
           />
         ))}
 
@@ -275,7 +276,7 @@ export function CellarsScreen() {
       <WineDetailModal
         visible={selectedWine != null}
         item={selectedWine}
-        onClose={() => setSelectedWine(null)}
+        onClose={() => setSelectedWineId(null)}
         onReportUpdated={() => void winesQuery.refetch()}
       />
     </View>

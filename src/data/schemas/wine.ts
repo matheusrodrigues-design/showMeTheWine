@@ -101,6 +101,8 @@ export const wineSearchRequestSchema = z.object({
     .min(2)
     .max(200)
     .regex(/^[\p{L}\p{N}\s.'’&\-()/]+$/u, 'Caracteres inválidos na busca'),
+  forceRefresh: z.boolean().optional(),
+  wineCacheId: z.string().uuid().optional(),
 });
 
 export const wineSearchResponseSchema = z.object({

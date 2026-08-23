@@ -72,7 +72,11 @@ export function WineDetailModal({
     if (!wine?.name) return;
     setError(null);
     try {
-      const data = await search.mutateAsync(wine.name);
+      const data = await search.mutateAsync({
+        query: wine.name,
+        forceRefresh: true,
+        wineCacheId: item?.wineCacheId ?? wine.id,
+      });
       if (data.wine.metadata?.report) {
         setRefreshedReport(mapApiReport(data.wine.metadata.report));
       }

@@ -28,6 +28,8 @@ export const wineSearchBodySchema = z
     query: z.string().trim().min(2).max(200).optional(),
     imageBase64: z.string().min(100).max(1_500_000).optional(),
     mode: z.enum(['text', 'ocr']).optional(),
+    forceRefresh: z.boolean().optional(),
+    wineCacheId: z.string().uuid().optional(),
   })
   .superRefine((val, ctx) => {
     const isOcr = val.mode === 'ocr' || Boolean(val.imageBase64);

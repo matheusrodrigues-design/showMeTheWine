@@ -10,9 +10,16 @@ import {
 import { normalizeWineQuery } from '@/core/security/sanitize';
 
 export class SommelierRepository {
-  async searchWine(query: string): Promise<WineSearchResponse> {
+  async searchWine(
+    query: string,
+    options?: { forceRefresh?: boolean; wineCacheId?: string },
+  ): Promise<WineSearchResponse> {
     const sanitized = normalizeWineQuery(query);
-    const body = wineSearchRequestSchema.parse({ query: sanitized });
+    const body = wineSearchRequestSchema.parse({
+      query: sanitized,
+      forceRefresh: options?.forceRefresh,
+      wineCacheId: options?.wineCacheId,
+    });
     const raw = await invokeEdgeFunction<unknown>('wine-search', body);
     return wineSearchResponseSchema.parse(raw);
   }

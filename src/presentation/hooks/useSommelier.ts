@@ -1,9 +1,23 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { sommelierRepository } from '@/data/repositories/SommelierRepository';
 
+export type WineSearchInput =
+  | string
+  | {
+      query: string;
+      forceRefresh?: boolean;
+      wineCacheId?: string;
+    };
+
 export function useWineSearch() {
   return useMutation({
-    mutationFn: (query: string) => sommelierRepository.searchWine(query),
+    mutationFn: (input: WineSearchInput) =>
+      typeof input === 'string'
+        ? sommelierRepository.searchWine(input)
+        : sommelierRepository.searchWine(input.query, {
+            forceRefresh: input.forceRefresh,
+            wineCacheId: input.wineCacheId,
+          }),
   });
 }
 

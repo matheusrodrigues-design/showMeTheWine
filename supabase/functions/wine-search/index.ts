@@ -94,6 +94,10 @@ Deno.serve(async (req) => {
       console.error('cache_search_error', cacheError.message);
     }
 
+    const forceRefresh = body.forceRefresh === true;
+    const requestedCacheId =
+      typeof body.wineCacheId === 'string' ? body.wineCacheId : null;
+
     const hit = Array.isArray(cached) && cached.length > 0 ? cached[0] : null;
     const hitHasReport =
       hit &&
@@ -104,7 +108,8 @@ Deno.serve(async (req) => {
       typeof hit.metadata.report === 'object' &&
       typeof hit.metadata.report.visual_analysis === 'string';
 
-    if (hit && hitHasReport) {
+    // Cache só vale se a ficha já está completa e o cliente não pediu regravação.
+    if (hit && hitHasReport && !forceRefresh) {
       return json(req, {
         wine: hit,
         fromCache: true,
@@ -141,14 +146,42 @@ Deno.serve(async (req) => {
       metadata: { report },
     };
 
-    const { data: saved, error: saveError } = await service
-      .from('wines_cache')
-      .upsert(insertPayload, { onConflict: 'normalized_name' })
-      .select('*')
-      .single();
+    const persistId =
+      requestedCacheId ??
+      (hit && typeof hit === 'object' && typeof hit.id === 'string'
+        ? hit.id
+        : null);
 
-    if (saveError) {
-      console.error('cache_save_error', saveError.message);
+    // Adega aponta para wine_cache_id. Sempre regrava ESSA linha — não cria
+    // outra por nome normalizado (o nome da IA pode divergir e o estoque
+    // continuaria lendo a ficha velha).
+    let saved: unknown = null;
+    let saveError: { message: string } | null = null;
+
+    if (persistId) {
+      const { normalized_name: _keepIdentity, ...updatePayload } = insertPayload;
+      const updated = await service
+        .from('wines_cache')
+        .update(updatePayload)
+        .eq('id', persistId)
+        .select('*')
+        .maybeSingle();
+      saved = updated.data;
+      saveError = updated.error;
+    }
+
+    if (!saved) {
+      const upserted = await service
+        .from('wines_cache')
+        .upsert(insertPayload, { onConflict: 'normalized_name' })
+        .select('*')
+        .single();
+      saved = upserted.data;
+      saveError = upserted.error;
+    }
+
+    if (saveError || !saved) {
+      console.error('cache_save_error', saveError?.message);
       return json(req, { error: 'Failed to persist wine cache' }, 500);
     }
 
