@@ -1,128 +1,113 @@
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 import { colors } from '@/core/theme/colors';
 
 type SensoryKind = 'visual' | 'olfactory' | 'palate';
 
 const ink = colors.ink;
 
+function StrokeIcon({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) {
+  return (
+    <View style={styles.wrap} accessibilityLabel={label} accessibilityRole="image">
+      <Svg width={22} height={22} viewBox="0 0 24 24" fill="none">
+        {children}
+      </Svg>
+    </View>
+  );
+}
+
 function EyeIcon() {
   return (
-    <View style={styles.iconBox}>
-      <View style={styles.eyeAlmond}>
-        <View style={styles.eyePupil} />
-      </View>
-    </View>
+    <StrokeIcon label="olho">
+      {/* Iconoir eye — linha fina, reconhece de imediato */}
+      <Path
+        d="M3 13C6.6 5 17.4 5 21 13"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </StrokeIcon>
   );
 }
 
 function NoseIcon() {
   return (
-    <View style={styles.iconBox}>
-      <View style={styles.noseBridge} />
-      <View style={styles.noseBase}>
-        <View style={styles.nostril} />
-        <View style={styles.nostril} />
-      </View>
-    </View>
+    <StrokeIcon label="nariz">
+      <Path
+        d="M9.2 4.8c.15 3.4-.15 6.6-.95 9.15-.7 2.2-.35 4.05 1.55 4.85 1.15.5 2.35.7 3.2.7s2.05-.2 3.2-.7c1.9-.8 2.25-2.65 1.55-4.85-.8-2.55-1.1-5.75-.95-9.15"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M8.6 16.15h2.15M13.25 16.15H15.4"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+      />
+    </StrokeIcon>
   );
 }
 
 function MouthIcon() {
   return (
-    <View style={styles.iconBox}>
-      <View style={styles.lipUpper} />
-      <View style={styles.lipGap} />
-      <View style={styles.lipLower} />
-    </View>
+    <StrokeIcon label="boca">
+      <Path
+        d="M4.4 12.6c2.7-2.15 5.3-2.85 7.6-2.85s4.9.7 7.6 2.85"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M4.4 12.6c2.5 2.9 5.2 4.05 7.6 4.05s5.1-1.15 7.6-4.05"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M7.1 13.15c1.6 1.35 3.25 1.9 4.9 1.9s3.3-.55 4.9-1.9"
+        stroke={ink}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </StrokeIcon>
   );
 }
 
 export function SensoryGlyph({ kind }: { kind: SensoryKind }) {
-  const label =
-    kind === 'visual' ? 'olho' : kind === 'olfactory' ? 'nariz' : 'boca';
-
-  return (
-    <View
-      style={styles.wrap}
-      accessibilityLabel={label}
-      accessibilityRole="image"
-    >
-      {kind === 'visual' ? <EyeIcon /> : null}
-      {kind === 'olfactory' ? <NoseIcon /> : null}
-      {kind === 'palate' ? <MouthIcon /> : null}
-    </View>
-  );
+  if (kind === 'visual') return <EyeIcon />;
+  if (kind === 'olfactory') return <NoseIcon />;
+  return <MouthIcon />;
 }
 
 const styles = StyleSheet.create({
   wrap: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: ink,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-  },
-  iconBox: {
-    width: 16,
-    height: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  eyeAlmond: {
-    width: 14,
-    height: 8,
-    borderRadius: 8,
-    borderWidth: 1.4,
-    borderColor: ink,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  eyePupil: {
-    width: 3.5,
-    height: 3.5,
-    borderRadius: 2,
-    backgroundColor: ink,
-  },
-  noseBridge: {
-    width: 1.6,
-    height: 7,
-    backgroundColor: ink,
-    borderRadius: 1,
-    marginBottom: 1,
-  },
-  noseBase: {
-    flexDirection: 'row',
-    gap: 3,
-  },
-  nostril: {
-    width: 4,
-    height: 3,
-    borderRadius: 2,
-    borderWidth: 1.3,
-    borderColor: ink,
-  },
-  lipUpper: {
-    width: 13,
-    height: 3.5,
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
-    borderWidth: 1.3,
-    borderBottomWidth: 0,
-    borderColor: ink,
-  },
-  lipGap: {
-    height: 1,
-  },
-  lipLower: {
-    width: 13,
-    height: 3.5,
-    borderBottomLeftRadius: 7,
-    borderBottomRightRadius: 7,
-    borderWidth: 1.3,
-    borderTopWidth: 0,
-    borderColor: ink,
   },
 });
