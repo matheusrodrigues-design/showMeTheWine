@@ -7,12 +7,14 @@ import { AuthScreen } from '@/presentation/screens/AuthScreen';
 import { CellarsScreen } from '@/presentation/screens/CellarsScreen';
 import { DailyTipScreen } from '@/presentation/screens/DailyTipScreen';
 import { SommelierScreen } from '@/presentation/screens/SommelierScreen';
+import { AdminReportsScreen } from '@/presentation/screens/AdminReportsScreen';
 import { colors } from '@/core/theme/colors';
 
 export type RootTabParamList = {
   Adegas: undefined;
   Dica: undefined;
   Sommelier: undefined;
+  Admin: undefined;
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -53,7 +55,7 @@ function TabLabel({
 }
 
 export function RootNavigator() {
-  const { session, loading } = useAuth();
+  const { session, loading, isAdmin } = useAuth();
   const insets = useSafeAreaInsets();
   const bottomPad = Math.max(insets.bottom, 8);
   const tabBarHeight = 52 + bottomPad;
@@ -120,6 +122,18 @@ export function RootNavigator() {
             ),
           }}
         />
+        {isAdmin ? (
+          <Tab.Screen
+            name="Admin"
+            component={AdminReportsScreen}
+            options={{
+              tabBarIcon: () => null,
+              tabBarLabel: ({ focused }) => (
+                <TabLabel label="Admin" focused={focused} />
+              ),
+            }}
+          />
+        ) : null}
       </Tab.Navigator>
     </NavigationContainer>
   );

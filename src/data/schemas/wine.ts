@@ -127,5 +127,29 @@ export const dailyTipResponseSchema = z.object({
   fromCache: z.boolean(),
 });
 
+export const createReportErrorSchema = z.object({
+  wineName: z.string().trim().min(1).max(200),
+  wineCacheId: z.string().uuid().optional().nullable(),
+  grapeVariety: z.string().trim().max(200).optional().nullable(),
+  message: z
+    .string()
+    .trim()
+    .min(4, 'Descreva o erro com pelo menos 4 caracteres')
+    .max(2000),
+});
+
+export const reportErrorSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  wine_cache_id: z.string().uuid().nullable(),
+  wine_name: z.string(),
+  grape_variety: z.string().nullable(),
+  message: z.string(),
+  status: z.enum(['open', 'reviewed']),
+  created_at: z.string(),
+});
+
 export type WineSearchResponse = z.infer<typeof wineSearchResponseSchema>;
 export type DailyTipResponse = z.infer<typeof dailyTipResponseSchema>;
+export type ReportError = z.infer<typeof reportErrorSchema>;
+export type CreateReportErrorInput = z.infer<typeof createReportErrorSchema>;

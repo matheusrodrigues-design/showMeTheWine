@@ -13,6 +13,7 @@ import { z } from 'zod';
 interface AuthContextValue {
   session: Session | null;
   user: User | null;
+  isAdmin: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
@@ -28,18 +29,35 @@ const credentialsSchema = z.object({
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const supabase = getSupabase();
 
-    void supabase.auth.getSession().then(({ data }) => {
+    async function loadAdminFlag(userId: string | undefined) {
+      if (!userId) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', userId)
+        .maybeSingle();
+      const row = data as { is_admin?: boolean } | null;
+      setIsAdmin(row?.is_admin === true);
+    }
+
+    void supabase.auth.getSession().then(async ({ data }) => {
       setSession(data.session);
+      await loadAdminFlag(data.session?.user.id);
       setLoading(false);
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
       setSession(next);
+      void loadAdminFlag(next?.user.id);
       setLoading(false);
     });
 
@@ -52,6 +70,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     () => ({
       session,
       user: session?.user ?? null,
+      isAdmin,
       loading,
       async signIn(email, password) {
         const creds = credentialsSchema.parse({ email, password });
@@ -68,7 +87,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         if (error) throw new Error(error.message);
       },
     }),
-    [session, loading],
+    [session, isAdmin, loading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

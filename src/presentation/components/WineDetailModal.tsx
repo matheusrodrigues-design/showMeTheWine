@@ -139,6 +139,9 @@ export function WineDetailModal({
                 report={displayReport}
                 tastingNotes={wine?.tastingNotes}
                 pairingNotes={wine?.pairingNotes}
+                wineName={wine?.name}
+                wineCacheId={wine?.id}
+                grapeVariety={wine?.grapeVariety}
               />
             ) : (
               <View style={styles.missing}>

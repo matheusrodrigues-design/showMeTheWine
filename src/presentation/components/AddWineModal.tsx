@@ -214,6 +214,9 @@ export function AddWineModal({
                   report={result.wine.metadata?.report}
                   tastingNotes={result.wine.tasting_notes}
                   pairingNotes={result.wine.pairing_notes}
+                  wineName={result.wine.name}
+                  wineCacheId={result.wine.id}
+                  grapeVariety={result.wine.grape_variety}
                 />
 
                 <Text style={[styles.label, { marginTop: 22 }]}>Quantidade</Text>

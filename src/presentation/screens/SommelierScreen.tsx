@@ -204,6 +204,9 @@ export function SommelierScreen() {
                 report={result.wine.metadata?.report}
                 tastingNotes={result.wine.tasting_notes}
                 pairingNotes={result.wine.pairing_notes}
+                wineName={result.wine.name}
+                wineCacheId={result.wine.id}
+                grapeVariety={result.wine.grape_variety}
               />
 
               <Text style={styles.section}>Cadastrar na adega</Text>
