@@ -6,13 +6,19 @@ import {
   useMemo,
   useState,
 } from 'react';
-import type { Session, User } from '@supabase/supabase-js';
-import { getSupabase } from '@/data/datasources/supabaseClient';
 import { z } from 'zod';
+import { apiRequest } from '@/data/datasources/apiClient';
+import {
+  getStoredSession,
+  onSessionChange,
+  setStoredSession,
+  type AppSession,
+  type AppUser,
+} from '@/data/datasources/session';
 
 interface AuthContextValue {
-  session: Session | null;
-  user: User | null;
+  session: AppSession | null;
+  user: AppUser | null;
   isAdmin: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
@@ -27,42 +33,55 @@ const credentialsSchema = z.object({
   password: z.string().min(8).max(128),
 });
 
+type AuthResponse = {
+  accessToken: string;
+  user: AppUser & { isAdmin?: boolean };
+};
+
+async function persistAuth(data: AuthResponse): Promise<void> {
+  await setStoredSession({
+    accessToken: data.accessToken,
+    user: { id: data.user.id, email: data.user.email },
+    isAdmin: data.user.isAdmin === true,
+  });
+}
+
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [session, setSession] = useState<AppSession | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = getSupabase();
-
-    async function loadAdminFlag(userId: string | undefined) {
-      if (!userId) {
-        setIsAdmin(false);
+    let active = true;
+    void getStoredSession().then(async (stored) => {
+      if (!stored) {
+        if (active) setLoading(false);
         return;
       }
-      const { data } = await supabase
-        .from('profiles')
-        .select('is_admin')
-        .eq('id', userId)
-        .maybeSingle();
-      const row = data as { is_admin?: boolean } | null;
-      setIsAdmin(row?.is_admin === true);
-    }
-
-    void supabase.auth.getSession().then(async ({ data }) => {
-      setSession(data.session);
-      await loadAdminFlag(data.session?.user.id);
-      setLoading(false);
+      try {
+        const me = await apiRequest<{ user: AppUser & { isAdmin?: boolean } }>(
+          '/auth/me',
+        );
+        const next: AppSession = {
+          ...stored,
+          user: { id: me.user.id, email: me.user.email },
+          isAdmin: me.user.isAdmin === true,
+        };
+        await setStoredSession(next);
+        if (active) setSession(next);
+      } catch {
+        if (active) setSession(null);
+      } finally {
+        if (active) setLoading(false);
+      }
     });
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
+    const unsub = onSessionChange((next) => {
       setSession(next);
-      void loadAdminFlag(next?.user.id);
       setLoading(false);
     });
-
     return () => {
-      sub.subscription.unsubscribe();
+      active = false;
+      unsub();
     };
   }, []);
 
@@ -70,24 +89,29 @@ export function AuthProvider({ children }: PropsWithChildren) {
     () => ({
       session,
       user: session?.user ?? null,
-      isAdmin,
+      isAdmin: session?.isAdmin === true,
       loading,
       async signIn(email, password) {
         const creds = credentialsSchema.parse({ email, password });
-        const { error } = await getSupabase().auth.signInWithPassword(creds);
-        if (error) throw new Error(error.message);
+        const data = await apiRequest<AuthResponse>('/auth/login', {
+          body: creds,
+          auth: false,
+        });
+        await persistAuth(data);
       },
       async signUp(email, password) {
         const creds = credentialsSchema.parse({ email, password });
-        const { error } = await getSupabase().auth.signUp(creds);
-        if (error) throw new Error(error.message);
+        const data = await apiRequest<AuthResponse>('/auth/signup', {
+          body: creds,
+          auth: false,
+        });
+        await persistAuth(data);
       },
       async signOut() {
-        const { error } = await getSupabase().auth.signOut();
-        if (error) throw new Error(error.message);
+        await setStoredSession(null);
       },
     }),
-    [session, isAdmin, loading],
+    [session, loading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

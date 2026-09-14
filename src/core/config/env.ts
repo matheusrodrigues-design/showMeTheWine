@@ -2,21 +2,13 @@ import Constants from 'expo-constants';
 import { z } from 'zod';
 
 /**
- * Variáveis públicas do client. Validação falha cedo em runtime se mal configurado.
- * Secrets (OpenAI, Weather, service_role) NÃO existem neste módulo.
+ * Variáveis públicas do client. Secrets de IA e do banco NÃO existem neste módulo.
  */
 const publicEnvSchema = z.object({
-  supabaseUrl: z
+  apiUrl: z
     .string()
-    .url('EXPO_PUBLIC_SUPABASE_URL inválida')
-    .refine((u) => u.startsWith('https://'), 'Supabase URL deve ser HTTPS'),
-  supabaseAnonKey: z
-    .string()
-    .min(20, 'EXPO_PUBLIC_SUPABASE_ANON_KEY ausente ou inválida')
-    .refine(
-      (k) => !k.includes('service_role'),
-      'SERVICE_ROLE não pode ser usada no client',
-    ),
+    .url('EXPO_PUBLIC_API_URL inválida')
+    .refine((u) => u.startsWith('https://'), 'API URL deve ser HTTPS'),
 });
 
 type PublicEnv = z.infer<typeof publicEnvSchema>;
@@ -32,9 +24,7 @@ export function getPublicEnv(): PublicEnv {
 
   const extra = readExtra();
   const parsed = publicEnvSchema.safeParse({
-    supabaseUrl: extra.supabaseUrl ?? process.env.EXPO_PUBLIC_SUPABASE_URL,
-    supabaseAnonKey:
-      extra.supabaseAnonKey ?? process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+    apiUrl: extra.apiUrl ?? process.env.EXPO_PUBLIC_API_URL,
   });
 
   if (!parsed.success) {
@@ -44,9 +34,4 @@ export function getPublicEnv(): PublicEnv {
 
   cached = parsed.data;
   return cached;
-}
-
-export function getFunctionsBaseUrl(): string {
-  const { supabaseUrl } = getPublicEnv();
-  return `${supabaseUrl.replace(/\/$/, '')}/functions/v1`;
 }

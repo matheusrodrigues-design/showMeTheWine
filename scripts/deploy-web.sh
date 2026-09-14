@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 if [[ ! -f .env ]]; then
-  echo "Missing .env with EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY"
+  echo "Missing .env with EXPO_PUBLIC_API_URL"
   exit 1
 fi
 
@@ -14,7 +14,4 @@ npx expo export -p web
 npx --yes vercel@41.7.8 deploy dist --prod --yes --name show-me-the-wine
 
 echo ""
-echo "Configure Supabase Auth → URL Configuration with the printed Vercel URL:"
-echo "  https://supabase.com/dashboard/project/pxeiisyefdmtdlkxfats/auth/url-configuration"
-echo "Site URL = https://<seu-projeto>.vercel.app"
-echo "Redirect URLs += https://<seu-projeto>.vercel.app/**"
+echo "Testers open the printed Vercel URL. The API URL is baked in from EXPO_PUBLIC_API_URL."

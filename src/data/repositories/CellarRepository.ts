@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { getSupabase } from '@/data/datasources/supabaseClient';
+import { apiRequest } from '@/data/datasources/apiClient';
 import {
   addWineToCellarSchema,
   cellarSchema,
@@ -77,14 +77,7 @@ function mapCellar(row: z.infer<typeof cellarSchema>): Cellar {
 
 export class CellarRepository implements ICellarRepository {
   async listCellars(): Promise<Cellar[]> {
-    const supabase = getSupabase();
-    const { data, error } = await supabase
-      .from('cellars')
-      .select('*')
-      .order('created_at', { ascending: true });
-
-    if (error) throw new Error(error.message);
-
+    const data = await apiRequest<unknown[]>('/cellars');
     return z.array(cellarSchema).parse(data ?? []).map(mapCellar);
   }
 
@@ -94,28 +87,13 @@ export class CellarRepository implements ICellarRepository {
       name: sanitizeUserText(input.name, 80),
     });
 
-    const supabase = getSupabase();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      throw new Error('Sessão expirada. Faça login novamente.');
-    }
-
-    const { data, error } = await supabase
-      .from('cellars')
-      .insert({
-        user_id: user.id,
+    const data = await apiRequest<unknown>('/cellars', {
+      body: {
         name: parsed.name,
         type: parsed.type,
         capacity: parsed.capacity,
-      })
-      .select('*')
-      .single();
-
-    if (error) throw new Error(error.message);
+      },
+    });
     return mapCellar(cellarSchema.parse(data));
   }
 
@@ -123,30 +101,16 @@ export class CellarRepository implements ICellarRepository {
     const safeId = z.string().uuid().parse(cellarId);
     const safeType = cellarTypeSchema.parse(type);
 
-    const supabase = getSupabase();
-    const { data, error } = await supabase
-      .from('cellars')
-      .update({ type: safeType })
-      .eq('id', safeId)
-      .select('*')
-      .single();
-
-    if (error) throw new Error(error.message);
+    const data = await apiRequest<unknown>(`/cellars/${safeId}`, {
+      method: 'PATCH',
+      body: { type: safeType },
+    });
     return mapCellar(cellarSchema.parse(data));
   }
 
   async listCellarWines(cellarId: string): Promise<CellarWine[]> {
     const safeId = z.string().uuid().parse(cellarId);
-    const supabase = getSupabase();
-
-    const { data, error } = await supabase
-      .from('cellar_wines')
-      .select('*, wines_cache(*)')
-      .eq('cellar_id', safeId)
-      .order('created_at', { ascending: false });
-
-    if (error) throw new Error(error.message);
-
+    const data = await apiRequest<unknown[]>(`/cellars/${safeId}/wines`);
     return z.array(cellarWineSchema).parse(data ?? []).map(mapCellarWine);
   }
 
@@ -158,45 +122,13 @@ export class CellarRepository implements ICellarRepository {
         : null,
     });
 
-    const supabase = getSupabase();
-
-    const { data: existing, error: existingError } = await supabase
-      .from('cellar_wines')
-      .select('id, quantity')
-      .eq('cellar_id', parsed.cellarId)
-      .eq('wine_cache_id', parsed.wineCacheId)
-      .maybeSingle();
-
-    if (existingError) throw new Error(existingError.message);
-
-    if (existing) {
-      const nextQty = Math.min(existing.quantity + parsed.quantity, 10000);
-      const { data, error } = await supabase
-        .from('cellar_wines')
-        .update({
-          quantity: nextQty,
-          notes: parsed.notes,
-        })
-        .eq('id', existing.id)
-        .select('*, wines_cache(*)')
-        .single();
-
-      if (error) throw new Error(error.message);
-      return mapCellarWine(cellarWineSchema.parse(data));
-    }
-
-    const { data, error } = await supabase
-      .from('cellar_wines')
-      .insert({
-        cellar_id: parsed.cellarId,
-        wine_cache_id: parsed.wineCacheId,
+    const data = await apiRequest<unknown>(`/cellars/${parsed.cellarId}/wines`, {
+      body: {
+        wineCacheId: parsed.wineCacheId,
         quantity: parsed.quantity,
         notes: parsed.notes,
-      })
-      .select('*, wines_cache(*)')
-      .single();
-
-    if (error) throw new Error(error.message);
+      },
+    });
     return mapCellarWine(cellarWineSchema.parse(data));
   }
 }
