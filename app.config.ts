@@ -71,7 +71,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ],
   ],
   extra: {
-    apiUrl: process.env.EXPO_PUBLIC_API_URL ?? '',
+    apiUrl:
+      process.env.EXPO_PUBLIC_API_URL ||
+      'https://show-me-the-wine-api.showmethewine.workers.dev',
     eas: {
       projectId: process.env.EAS_PROJECT_ID,
     },

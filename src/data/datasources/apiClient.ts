@@ -59,6 +59,9 @@ export async function apiRequest<T>(
     return payload;
   } catch (err) {
     if (err instanceof ApiError) throw err;
+    if (err instanceof Error && err.message.startsWith('Configuração')) {
+      throw err;
+    }
     if (err instanceof Error && err.name === 'AbortError') {
       throw new ApiError('A solicitação demorou demais. Tente de novo.', 504, 'TIMEOUT');
     }
