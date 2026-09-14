@@ -237,7 +237,7 @@ async function callGemini(
 ): Promise<unknown> {
   const apiKey = env.GEMINI_API_KEY;
   if (!apiKey) throw new Error('Missing secret: GEMINI_API_KEY');
-  const model = encodeURIComponent(env.GEMINI_MODEL?.trim() || 'gemini-2.5-flash');
+  const model = encodeURIComponent(env.GEMINI_MODEL?.trim() || 'gemini-3.6-flash');
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
   const res = await fetch(url, {
